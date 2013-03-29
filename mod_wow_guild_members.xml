@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- @Version $Id$ -->
-<install type="module" version="1.5.0" client="site" method="upgrade">
+<extension type="module" version="2.5.0" client="site" method="upgrade">
 	<name>WoW Guild Members</name>
 	<author>Branko Wilhelm</author>
 	<creationDate>Mar 2012</creationDate>
-	<copyright>(C) 2012 Branko Wilhelm</copyright>
+	<copyright>(C) 2012 - 2013 Branko Wilhelm</copyright>
 	<license>http://www.gnu.org/licenses/gpl.html GNU/GPL version 3</license>
 	<authorEmail>bw@z-index.net</authorEmail>
 	<authorUrl>www.z-index.net</authorUrl>
@@ -20,7 +20,6 @@
 		<language tag="en-GB">en-GB.mod_wow_guild_members.ini</language>
 		<language tag="de-DE">de-DE.mod_wow_guild_members.ini</language>
 	</languages>
-	<!-- Joomla! 1.6+ -->
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
@@ -94,19 +93,7 @@
 			</fieldset>
 		</fields>
 	</config>
-	<!-- Joomla! 1.5 -->
-	<params>
-		<param name="guild" type="text" default="" size="30" label="MOD_WOW_GUILD_MEMBERS_GUILD_LABEL" description="MOD_WOW_GUILD_MEMBERS_GUILD_DESC" />
-		<param name="realm" type="text" default="" size="30" label="MOD_WOW_GUILD_MEMBERS_REALM_LABEL" description="MOD_WOW_GUILD_MEMBERS_REALM_DESC" />
-		<param name="lang" type="text" default="en" size="30" label="MOD_WOW_GUILD_MEMBERS_LANG_LABEL" description="MOD_WOW_GUILD_MEMBERS_LANG_DESC" />
-		<param name="region" type="text" default="us" size="30" label="MOD_WOW_GUILD_MEMBERS_REGION_LABEL" description="MOD_WOW_GUILD_MEMBERS_REGION_DESC" />
-	</params>
-	<params group="advanced">
-		<param name="moduleclass_sfx" type="text" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
-		<param name="cache_time" type="text" default="15" size="5" label="MOD_WOW_GUILD_MEMBERSS_CACHE_LABEL" description="MOD_WOW_GUILD_MEMBERSS_CACHE_DESC" />
-		<param name="timeout" type="text" default="10" size="5" label="MOD_WOW_GUILD_MEMBERSS_TIMEOUT_LABEL" description="MOD_WOW_GUILD_MEMBERSS_TIMEOUT_DESC" />
-	</params>
 	<updateservers>
 		<server type="extension" priority="1" name="WoW Guild Members">http://www.z-index.net/en/joomla/wow-guild-members/updatestream.xml</server>
 	</updateservers>
-</install>
+</extension>
