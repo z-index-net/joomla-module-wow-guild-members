@@ -14,10 +14,31 @@ defined('_JEXEC') or die;
 
 JFactory::getDocument()->addStyleSheet(JURI::base(true) . '/modules/mod_wow_guild_members/tmpl/stylesheet.css');
 ?>
-<div class="mod_wow_guild_members">
-    <ul>
-        <?php foreach ($news as $row) { ?>
-            <li><?php echo $row; ?></li>
+<table class="mod_wow_guild_members">
+<?php if($params->get('display_thead')) { ?>
+<thead>
+    <tr>
+    	<th><?php echo JText::_('Name'); ?></th>
+        <?php if($params->get('display_ranks')) { ?>
+    	<th><?php echo JText::_('Rank'); ?></th>
         <?php } ?>
-    </ul>
-</div>
+        <?php if($params->get('display_level')) { ?>
+    	<th><?php echo JText::_('Lvl'); ?></th>
+        <?php } ?>
+    </tr>
+</thead>
+<?php } ?>
+<tbody>
+    <?php foreach ($members as $member) { ?>
+    <tr>
+        <td><?php if($params->get('display_race')) { echo $member['race']; } ?> <?php if($params->get('display_class')) { echo $member['class']; } ?> <?php echo $member['name']; ?></td>
+        <?php if($params->get('display_ranks')) { ?>
+        <td><?php echo $member['rank']; ?></td>
+        <?php } ?>
+        <?php if($params->get('display_level')) { ?>
+        <td><?php echo $member['level']; ?></td>
+        <?php } ?>
+    </tr>
+    <?php } ?>
+</tbody>
+</table>

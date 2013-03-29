@@ -26,23 +26,80 @@
 			<fieldset name="basic">
 				<field name="guild" type="text" default="" size="30" required="true" label="MOD_WOW_GUILD_MEMBERSS_GUILD_LABEL" description="MOD_WOW_GUILD_MEMBERSS_GUILD_DESC" />
 				<field name="realm" type="text" default="" size="30" required="true" label="MOD_WOW_GUILD_MEMBERSS_REALM_LABEL" description="MOD_WOW_GUILD_MEMBERSS_REALM_DESC" />
-				<field name="lang" type="text" default="en" size="30" required="true" label="MOD_WOW_GUILD_MEMBERSS_LANG_LABEL" description="MOD_WOW_GUILD_MEMBERSS_LANG_DESC" />
 				<field name="region" type="text" default="us" size="30" required="true" label="MOD_WOW_GUILD_MEMBERSS_REGION_LABEL" description="MOD_WOW_GUILD_MEMBERSS_REGION_DESC" />
+                <field name="ranks" type="list" default="name" label="MOD_WOW_GUILD_RANKS_LABEL" description="MOD_WOW_GUILD_RANKS_DESC" multiple="true" size="11">
+					<option value="0">MOD_WOW_GUILD_RANK_0_LABEL</option>
+					<option value="1">MOD_WOW_GUILD_RANK_1_LABEL</option>
+					<option value="2">MOD_WOW_GUILD_RANK_2_LABEL</option>
+					<option value="3">MOD_WOW_GUILD_RANK_3_LABEL</option>
+					<option value="4">MOD_WOW_GUILD_RANK_4_LABEL</option>
+					<option value="5">MOD_WOW_GUILD_RANK_5_LABEL</option>
+					<option value="6">MOD_WOW_GUILD_RANK_6_LABEL</option>
+					<option value="7">MOD_WOW_GUILD_RANK_7_LABEL</option>
+					<option value="8">MOD_WOW_GUILD_RANK_8_LABEL</option>
+					<option value="9">MOD_WOW_GUILD_RANK_9_LABEL</option>
+					<option value="10">MOD_WOW_GUILD_RANK_10_LABEL</option>
+				</field>
+                <field name="order" type="radio" default="name" label="MOD_WOW_GUILD_ORDER_LABEL" description="MOD_WOW_GUILD_ORDER_DESC">
+					<option value="name">MOD_WOW_GUILD_ORDER_NAME_LABEL</option>
+					<option value="rank">MOD_WOW_GUILD_ORDER_RANK_LABEL</option>
+					<option value="level">MOD_WOW_GUILD_ORDER_LEVEL_LABEL</option>
+					<option value="gender">MOD_WOW_GUILD_ORDER_GENDER_LABEL</option>
+				</field>
+                <field name="sort" type="radio" default="ASC" label="MOD_WOW_GUILD_SORT_LABEL" description="MOD_WOW_GUILD_SORT_DESC">
+					<option value="ASC">MOD_WOW_GUILD_SORT_ASC_LABEL</option>
+					<option value="DESC">MOD_WOW_GUILD_SORT_DESC_LABEL</option>
+				</field>
+			</fieldset>
+            <fieldset name="DISPLAY">
+                <field name="display_thead" type="radio" default="1" label="MOD_WOW_GUILD_DISPLAY_THEAD_LABEL" description="MOD_WOW_GUILD_DISPLAY_THEAD_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+                <field name="display_ranks" type="radio" default="1" label="MOD_WOW_GUILD_DISPLAY_RANKS_LABEL" description="MOD_WOW_GUILD_DISPLAY_RANKS_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+                <field name="display_level" type="radio" default="1" label="MOD_WOW_GUILD_DISPLAY_LEVEL_LABEL" description="MOD_WOW_GUILD_DISPLAY_LEVEL_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+                <field name="display_race" type="radio" default="1" label="MOD_WOW_GUILD_DISPLAY_RACE_LABEL" description="MOD_WOW_GUILD_DISPLAY_RACE_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+                <field name="display_class" type="radio" default="1" label="MOD_WOW_GUILD_DISPLAY_CLASS_LABEL" description="MOD_WOW_GUILD_DISPLAY_CLASS_DESC">
+					<option value="1">JYES</option>
+					<option value="0">JNO</option>
+				</field>
+			</fieldset>
+            <fieldset name="RANKS">
+                <field name="rank_0" type="text" default="Guildmaster" size="30" label="MOD_WOW_GUILD_RANK_0_LABEL" />
+                <field name="rank_1" type="text" default="" size="30" label="MOD_WOW_GUILD_RANK_1_LABEL" />
+                <field name="rank_2" type="text" default="" size="30" label="MOD_WOW_GUILD_RANK_2_LABEL" />
+                <field name="rank_3" type="text" default="" size="30" label="MOD_WOW_GUILD_RANK_3_LABEL" />
+                <field name="rank_4" type="text" default="" size="30" label="MOD_WOW_GUILD_RANK_4_LABEL" />
+                <field name="rank_5" type="text" default="" size="30" label="MOD_WOW_GUILD_RANK_5_LABEL" />
+                <field name="rank_6" type="text" default="" size="30" label="MOD_WOW_GUILD_RANK_6_LABEL" />
+                <field name="rank_7" type="text" default="" size="30" label="MOD_WOW_GUILD_RANK_7_LABEL" />
+                <field name="rank_8" type="text" default="" size="30" label="MOD_WOW_GUILD_RANK_8_LABEL" />
+                <field name="rank_9" type="text" default="" size="30" label="MOD_WOW_GUILD_RANK_9_LABEL" />
+                <field name="rank_10" type="text" default="" size="30" label="MOD_WOW_GUILD_RANK_10_LABEL" />
 			</fieldset>
 			<fieldset name="advanced">
 				<field name="layout" type="modulelayout" label="JFIELD_ALT_LAYOUT_LABEL" description="JFIELD_ALT_MODULE_LAYOUT_DESC" />
 				<field name="moduleclass_sfx" type="text" label="COM_MODULES_FIELD_MODULECLASS_SFX_LABEL" description="COM_MODULES_FIELD_MODULECLASS_SFX_DESC" />
-				<field name="cache_time" type="text" filter="integer" default="15" size="5" required="true" label="MOD_WOW_GUILD_MEMBERSS_CACHE_LABEL" description="MOD_WOW_GUILD_MEMBERSS_CACHE_DESC" />
-				<field name="timeout" type="text" filter="integer" default="10" size="5" required="true" label="MOD_WOW_GUILD_MEMBERSS_TIMEOUT_LABEL" description="MOD_WOW_GUILD_MEMBERSS_TIMEOUT_DESC" />
+				<field name="cache_time" type="text" filter="integer" default="15" size="5" required="true" label="MOD_WOW_GUILD_MEMBERS_CACHE_LABEL" description="MOD_WOW_GUILD_MEMBERS_CACHE_DESC" />
+				<field name="timeout" type="text" filter="integer" default="10" size="5" required="true" label="MOD_WOW_GUILD_MEMBERS_TIMEOUT_LABEL" description="MOD_WOW_GUILD_MEMBERS_TIMEOUT_DESC" />
 			</fieldset>
 		</fields>
 	</config>
 	<!-- Joomla! 1.5 -->
 	<params>
-		<param name="guild" type="text" default="" size="30" label="MOD_WOW_GUILD_MEMBERSS_GUILD_LABEL" description="MOD_WOW_GUILD_MEMBERSS_GUILD_DESC" />
-		<param name="realm" type="text" default="" size="30" label="MOD_WOW_GUILD_MEMBERSS_REALM_LABEL" description="MOD_WOW_GUILD_MEMBERSS_REALM_DESC" />
-		<param name="lang" type="text" default="en" size="30" label="MOD_WOW_GUILD_MEMBERSS_LANG_LABEL" description="MOD_WOW_GUILD_MEMBERSS_LANG_DESC" />
-		<param name="region" type="text" default="us" size="30" label="MOD_WOW_GUILD_MEMBERSS_REGION_LABEL" description="MOD_WOW_GUILD_MEMBERSS_REGION_DESC" />
+		<param name="guild" type="text" default="" size="30" label="MOD_WOW_GUILD_MEMBERS_GUILD_LABEL" description="MOD_WOW_GUILD_MEMBERS_GUILD_DESC" />
+		<param name="realm" type="text" default="" size="30" label="MOD_WOW_GUILD_MEMBERS_REALM_LABEL" description="MOD_WOW_GUILD_MEMBERS_REALM_DESC" />
+		<param name="lang" type="text" default="en" size="30" label="MOD_WOW_GUILD_MEMBERS_LANG_LABEL" description="MOD_WOW_GUILD_MEMBERS_LANG_DESC" />
+		<param name="region" type="text" default="us" size="30" label="MOD_WOW_GUILD_MEMBERS_REGION_LABEL" description="MOD_WOW_GUILD_MEMBERS_REGION_DESC" />
 	</params>
 	<params group="advanced">
 		<param name="moduleclass_sfx" type="text" label="Module Class Suffix" description="PARAMMODULECLASSSUFFIX" />
@@ -50,6 +107,6 @@
 		<param name="timeout" type="text" default="10" size="5" label="MOD_WOW_GUILD_MEMBERSS_TIMEOUT_LABEL" description="MOD_WOW_GUILD_MEMBERSS_TIMEOUT_DESC" />
 	</params>
 	<updateservers>
-		<server type="extension" priority="1" name="WoW Guild Members">http://www.z-index.net/joomla/wow-guild-members/updatestream/?view=xml</server>
+		<server type="extension" priority="1" name="WoW Guild Members">http://www.z-index.net/en/joomla/wow-guild-members/updatestream.xml</server>
 	</updateservers>
 </install>
