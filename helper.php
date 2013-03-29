@@ -4,7 +4,7 @@
  *
  * @author     Branko Wilhelm <bw@z-index.net>
  * @link       http://www.z-index.net
- * @copyright  (c) 2012 Branko Wilhelm
+ * @copyright  (c) 2012 - 2013 Branko Wilhelm
  * @package    mod_wow_guild_members
  * @license    GNU Public License <http://www.gnu.org/licenses/gpl.html>
  * @version    $Id$
@@ -16,7 +16,7 @@ jimport('joomla.cache.cache');
 
 class mod_wow_guild_members {
 
-    public static function onload(&$params) {
+    public static function onload(&$params, &$module) {
 
         // all required paramters set?
         if (!$params->get('region') || !$params->get('realm') || !$params->get('guild')) {
@@ -43,8 +43,8 @@ class mod_wow_guild_members {
         $cache->setLifeTime($params->get('cache_time', 15)); // time to cache
 
         $result = $cache->call(array(__CLASS__, 'curl'), $url, $params->get('timeout', 10)); // Joomla has nice functions ;)
-
-        $cache->setCaching(JFactory::getConfig()->getValue('config.caching')); // restore default cache mode
+        
+        $cache->setCaching(JFactory::getConfig()->get('caching')); // restore default cache mode
 
         // Error handling
         if(!is_array($result['body']) || isset($result['body']['reason'])) {
@@ -61,7 +61,7 @@ class mod_wow_guild_members {
             return implode('<br/>', $err);
         }
         
-        $img_path = 'modules' . DS . __CLASS__ . DS . 'tmpl' . DS . 'images' . DS;
+        $img_path = JURI::root() . 'modules/' . $module->module . '/tmpl/images/';
         $armory_path = 'http://' . $region . '.battle.net/wow/character/' . $realm . '/';
         
         self::_sort($result['body']['members'], $params);
@@ -69,9 +69,9 @@ class mod_wow_guild_members {
         $ranks = $params->get('ranks', array());
         foreach($result['body']['members'] as $key => &$member) {
             if(empty($ranks) || in_array($member['rank'], $ranks)) {
-                $member['race'] = JHTML::link($armory_path . $member['name'] . '/', JHTML::image($img_path . $member['race'], $member['race']), array('target' => '_blank', 'class' => 'race'));
-                $member['class'] = JHTML::link($armory_path . $member['name'] . '/', JHTML::image($img_path . $member['class'], $member['class']), array('target' => '_blank', 'class' => 'class'));
-                $member['name'] = JHTML::link($armory_path . $member['name'] . '/', $member['name'], array('target' => '_blank'));
+                $member['race'] = JHtml::_('link', $armory_path . $member['name'] . '/', JHtml::_('image', $img_path . $member['race'], $member['race']), array('target' => '_blank', 'class' => 'race'));
+                $member['class'] = JHtml::_('link', $armory_path . $member['name'] . '/', JHtml::_('image', $img_path . $member['class'], $member['class']), array('target' => '_blank', 'class' => 'class'));
+                $member['name'] = JHtml::_('link', $armory_path . $member['name'] . '/', $member['name'], array('target' => '_blank'));
                 $member['rank'] = $params->get('rank_' . $member['rank'], 'Rank ' . $member['rank']);
                 continue;
             }
