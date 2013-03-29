@@ -101,17 +101,18 @@ class mod_wow_guild_members {
         $rc[5] = array('Undead_Male.gif', 'Undead_Female.gif');
         $rc[6] = array('Tauren_Male.gif', 'Tauren_Female.gif');
         $rc[7] = array('Gnome_Male.gif', 'Gnome_Female.gif');
-        $rc[8] = array( 'Troll_Male.gif', 'Troll_Female.gif');
-        $rc[9] = array( 'Goblin_Male.gif', 'Goblin_Female.gif');
-        $rc[10] = array( 'BloodElf_Male.gif', 'BloodElf_Female.gif');
+        $rc[8] = array('Troll_Male.gif', 'Troll_Female.gif');
+        $rc[9] = array('Goblin_Male.gif', 'Goblin_Female.gif');
+        $rc[10] = array('BloodElf_Male.gif', 'BloodElf_Female.gif');
         $rc[11] = array('Draenei_Male.png', 'Draenei_Female.png');
-        $rc[22] = array( 'Worgen_Male.gif', 'Worgen_Female.gif'); // yes, it's 22!
+        $rc[22] = array('Worgen_Male.gif', 'Worgen_Female.gif'); // yes, it's 22!
+        $rc[26] = array('Pandaren_Male.gif', 'Pandaren_Female.gif'); // yes, it's 26!
 
         return isset($rc[$race][$gender]) ? $rc[$race][$gender] : 'unknow.gif';
     }
 
     private static function _class($class) {
-        $cl = array(0 => null, 'Warrior.gif', 'Paladin.gif', 'Hunter.gif', 'Rogue.gif', 'Priest.gif', 'Deathknight.gif', 'Shaman.gif', 'Mage.gif', 'Warlock.gif', 10 => null, 'Druid.gif');
+        $cl = array(0 => null, 'Warrior.gif', 'Paladin.gif', 'Hunter.gif', 'Rogue.gif', 'Priest.gif', 'Deathknight.gif', 'Shaman.gif', 'Mage.gif', 'Warlock.gif', 10 => 'Monk.gif', 'Druid.gif');
 
         return isset($cl[$class]) ? $cl[$class] : 'unknow.gif';
     }
