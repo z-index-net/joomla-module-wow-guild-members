@@ -6,9 +6,10 @@
  * @link       http://www.z-index.net
  * @copyright  (c) 2012 - 2013 Branko Wilhelm
  * @package    mod_wow_guild_members
- * @license    GNU Public License <http://www.gnu.org/licenses/gpl.html>
+ * @license    GNU General Public License v3
  * @version    $Id$
  */
+
 // no direct access
 defined('_JEXEC') or die;
 
