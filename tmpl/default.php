@@ -10,10 +10,9 @@
  * @version    $Id$
  */
 
-// no direct accesss
 defined('_JEXEC') or die;
 
-JFactory::getDocument()->addStyleSheet(JURI::base(true) . '/modules/mod_wow_guild_members/tmpl/stylesheet.css');
+JFactory::getDocument()->addStyleSheet(JURI::base(true) . '/modules/' . $module->module . '/tmpl/stylesheet.css');
 ?>
 <table class="mod_wow_guild_members">
 <?php if($params->get('display_thead')) { ?>
@@ -24,7 +23,7 @@ JFactory::getDocument()->addStyleSheet(JURI::base(true) . '/modules/mod_wow_guil
     	<th><?php echo JText::_('Rank'); ?></th>
         <?php } ?>
         <?php if($params->get('display_level')) { ?>
-    	<th><?php echo JText::_('Lvl'); ?></th>
+    	<th align="right"><?php echo JText::_('Lvl'); ?></th>
         <?php } ?>
     </tr>
 </thead>
@@ -32,12 +31,16 @@ JFactory::getDocument()->addStyleSheet(JURI::base(true) . '/modules/mod_wow_guil
 <tbody>
     <?php foreach ($members as $member) { ?>
     <tr>
-        <td><?php if($params->get('display_race')) { echo $member['race']; } ?> <?php if($params->get('display_class')) { echo $member['class']; } ?> <?php echo $member['name']; ?></td>
+        <td>
+        <?php if($params->get('display_race')) echo $member['race']; ?> 
+        <?php if($params->get('display_class')) echo $member['class']; ?> 
+        <?php echo $member['name']; ?>
+        </td>
         <?php if($params->get('display_ranks')) { ?>
         <td><?php echo $member['rank']; ?></td>
         <?php } ?>
         <?php if($params->get('display_level')) { ?>
-        <td><?php echo $member['level']; ?></td>
+        <td align="right"><?php echo $member['level']; ?></td>
         <?php } ?>
     </tr>
     <?php } ?>

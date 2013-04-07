@@ -10,79 +10,76 @@
  * @version    $Id$
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
-jimport('joomla.cache.cache');
+jimport('joomla.http.http');
 
-class mod_wow_guild_members {
+abstract class mod_wow_guild_members {
 
-    public static function onload(&$params, &$module) {
-
-        // all required paramters set?
+    public static function _(JRegistry &$params, stdClass &$module) {
+    	
         if (!$params->get('region') || !$params->get('realm') || !$params->get('guild')) {
-            return 'please configure Module' . ' - ' . __CLASS__;
+            return 'please configure Module - ' . __CLASS__;
         }
 
-        // if curl installed?
-        if (!function_exists('curl_init')) {
-            return 'php-curl extension not found';
-        }
+        $url = 'http://' . $params->get('region') . '.battle.net/api/wow/guild/' . $params->get('realm') . '/' . $params->get('guild') . '?fields=members';
 
-        // if json_decode availble?
-        if (!function_exists('json_decode')) {
-            return 'function "json_decode" not found';
-        }
-
-        $realm = rawurlencode(strtolower($params->get('realm')));
-        $guild = rawurlencode(strtolower($params->get('guild')));
-        $region = strtolower($params->get('region'));
-        $url = 'http://' . $region . '.battle.net/api/wow/guild/' . $realm . '/' . $guild . '?fields=members';
-
-        $cache = JFactory::getCache(); // get cache obj
-        $cache->setCaching(1); // enable cache for this module
-        $cache->setLifeTime($params->get('cache_time', 15)); // time to cache
-
-        $result = $cache->call(array(__CLASS__, 'curl'), $url, $params->get('timeout', 10)); // Joomla has nice functions ;)
+        $cache = JFactory::getCache(__CLASS__, 'output');
+    	$cache->setCaching(1);
+    	$cache->setLifeTime($params->get('cache_time', 60) * 60);
+    	
+    	$key = md5($url);
+    	
+    	if(!$result = $cache->get($key)) {
+    		$http = new JHttp;
+    		$http->setOption('userAgent', 'Joomla! ' . JVERSION . '; WoW Guild Members Module; php/' . phpversion());
+    		
+    		try {
+    			$result = $http->get($url, null, $params->get('timeout', 10));
+    		}catch(Exception $e) {
+    			$cache->setCaching(JFactory::getConfig()->get('caching'));
+    			return $e->getMessage();
+    		}
+    		
+    		$cache->store($result, $key);
+    	}
+    	
+    	if($result->code != 200) {
+    		return __CLASS__ . ' HTTP-Status ' . JHTML::_('link', 'http://wikipedia.org/wiki/List_of_HTTP_status_codes#'.$result->code, $result->code, array('target' => '_blank'));
+    	}
         
-        $cache->setCaching(JFactory::getConfig()->get('caching')); // restore default cache mode
-
-        // Error handling
-        if(!is_array($result['body']) || isset($result['body']['reason'])) {
-            $err[] = '<strong>' . __CLASS__ . ': no guid data (json) found</strong>';
-            if($result['errno'] != 0) {
-                $err[] = 'Error: ' . $result['error'] . ' (' . $result['errno'] . ')';
-            }
-            $err[] = 'battle.net URL: ' . JHTML::link($url, $guild);
-            $err[] = 'HTTP Code: ' . $result['info']['http_code'];
-            $err[] = 'JSON Error Code: ' . json_last_error();
-            if(isset($result['body']['reason'])) {
-                $err[] = 'battle.net Error: ' . $result['body']['reason'];
-            }
-            return implode('<br/>', $err);
-        }
+        $result->body = json_decode($result->body, true); // must be an array!
         
+        foreach($result->body['members'] as $key => $member) {
+        	$member['character']['rank'] = $member['rank'];
+        	$member['character']['race'] = self::getRace($member['character']['race'], $member['character']['gender']);
+        	$member['character']['class'] = self::getClass($member['character']['class']);
+        	unset($member['character']['thumbnail'], $member['character']['achievementPoints'], $member['character']['realm']); // is not required
+        	$result->body['members'][$key] = $member['character'];
+        }
+
         $img_path = JURI::root() . 'modules/' . $module->module . '/tmpl/images/';
-        $armory_path = 'http://' . $region . '.battle.net/wow/character/' . $realm . '/';
+
+        self::sort($result->body['members'], $params);
         
-        self::_sort($result['body']['members'], $params);
+		$ranks = $params->get('ranks', array());
         
-        $ranks = $params->get('ranks', array());
-        foreach($result['body']['members'] as $key => &$member) {
+        foreach($result->body['members'] as $key => &$member) {
             if(empty($ranks) || in_array($member['rank'], $ranks)) {
-                $member['race'] = JHtml::_('link', $armory_path . $member['name'] . '/', JHtml::_('image', $img_path . $member['race'], $member['race']), array('target' => '_blank', 'class' => 'race'));
-                $member['class'] = JHtml::_('link', $armory_path . $member['name'] . '/', JHtml::_('image', $img_path . $member['class'], $member['class']), array('target' => '_blank', 'class' => 'class'));
-                $member['name'] = JHtml::_('link', $armory_path . $member['name'] . '/', $member['name'], array('target' => '_blank'));
+            	$member['link'] = self::link($member['name'], $params);
+                $member['race'] = JHtml::_('link', $member['link'], JHtml::_('image', $img_path . $member['race'], $member['race']), array('target' => '_blank', 'class' => 'race'));
+                $member['class'] = JHtml::_('link', $member['link'], JHtml::_('image', $img_path . $member['class'], $member['class']), array('target' => '_blank', 'class' => 'class'));
+                $member['name'] = JHtml::_('link', $member['link'], $member['name'], array('target' => '_blank', 'class' => 'name'));
                 $member['rank'] = $params->get('rank_' . $member['rank'], 'Rank ' . $member['rank']);
                 continue;
             }
-            unset($result['body']['members'][$key]);
+            unset($result->body['members'][$key]);
         }
         
-        return !empty($result['body']['members']) ? $result['body']['members'] : 'no members in configured ranks found?!';
-    }
+        return !empty($result->body['members']) ? $result->body['members'] : 'No members found based on the configuration';
+   }
     
-   private static function _sort(&$members, &$params) {
+   private static function sort(&$members, &$params) {
         $col = $params->get('order', 'name');
         $sort = ($params->get('sort', 'ASC') == 'ASC') ? SORT_ASC : SORT_DESC;
         
@@ -93,7 +90,7 @@ class mod_wow_guild_members {
         array_multisort($sort_col, $sort, $members);
     }
 
-    private static function _race($race, $gender) {
+    private static function getRace($race, $gender) {
         $rc[1] = array('Human_Male.gif', 'Human_Female.gif');
         $rc[2] = array('Orc_Male.gif', 'Orc_Female.gif');
         $rc[3] = array('Dwarf_Male.gif', 'Dwarf_Female.gif');
@@ -111,40 +108,15 @@ class mod_wow_guild_members {
         return isset($rc[$race][$gender]) ? $rc[$race][$gender] : 'unknow.gif';
     }
 
-    private static function _class($class) {
+    private static function getClass($class) {
         $cl = array(0 => null, 'Warrior.gif', 'Paladin.gif', 'Hunter.gif', 'Rogue.gif', 'Priest.gif', 'Deathknight.gif', 'Shaman.gif', 'Mage.gif', 'Warlock.gif', 'Monk.gif', 'Druid.gif');
 
         return isset($cl[$class]) ? $cl[$class] : 'unknow.gif';
     }
 
-    public static function curl($url, $timeout=10) {
-        $curl = curl_init($url);
-        curl_setopt($curl, CURLOPT_USERAGENT, 'Joomla! ' . JVERSION . '; WoW Guild Members Module; php/' . phpversion());
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Connection: Close'));
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_AUTOREFERER, 1);
-        curl_setopt($curl, CURLOPT_TIMEOUT, $timeout);
-
-        $body = curl_exec($curl);
-        $info = curl_getinfo($curl);
-        $errno = curl_errno($curl);
-        $error = curl_error($curl);
-
-        curl_close($curl);
-        
-        $body = json_decode($body, true);
-        
-        // prepare and cleanup members array 
-        if(is_array($body) && isset($body['members'])) {
-            foreach($body['members'] as $key => $member) {
-                $member['character']['rank'] = $member['rank'];
-                $member['character']['race'] = self::_race($member['character']['race'], $member['character']['gender']);
-                $member['character']['class'] = self::_class($member['character']['class']);
-                unset($member['character']['thumbnail'], $member['character']['achievementPoints'], $member['character']['realm']); // is not required
-                $body['members'][$key] = $member['character'];
-            }
-        }
-
-        return array('info' => $info, 'errno' => $errno, 'error' => $error, 'body' => $body);
+    private static function link($member, JRegistry &$params) {
+    	$sites['battle.net'] = 'http://' . $params->get('region') . '.battle.net/wow/' . $params->get('lang') . '/character/' . $params->get('realm') . '/' . $member . '/';
+    	$sites['wowhead.com'] = 'http://' . $params->get('lang') . '.wowhead.com/profile=' . $params->get('region') . '.' . $params->get('realm'). '.' . $member;
+    	return $sites[$params->get('link')];
     }
 }

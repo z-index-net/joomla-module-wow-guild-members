@@ -7,7 +7,3 @@ table.mod_wow_guild_members {
 table.mod_wow_guild_members td, table.mod_wow_guild_members th {
 	padding: 2px;
 }
-
-table.mod_wow_guild_members tbody td:last-child, table.mod_wow_guild_members thead th:last-child {
-	text-align: right;
-}

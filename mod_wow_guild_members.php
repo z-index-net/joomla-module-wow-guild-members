@@ -10,13 +10,17 @@
  * @version    $Id$
  */
 
-// no direct access
 defined('_JEXEC') or die;
 
-// Include the syndicate functions only once
 require_once dirname(__FILE__) . '/helper.php';
 
-$members = mod_wow_guild_members::onload($params, $module);
+$params->set('guild', rawurlencode(strtolower($params->get('guild'))));
+$params->set('realm', rawurlencode(strtolower($params->get('realm'))));
+$params->set('region', strtolower($params->get('region')));
+$params->set('lang', strtolower($params->get('lang', 'en')));
+$params->set('link', $params->get('link', 'battle.net'));
+
+$members = mod_wow_guild_members::_($params, $module);
 
 if(!is_array($members)) {
     echo $members;
