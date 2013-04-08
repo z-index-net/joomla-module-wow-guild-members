@@ -23,8 +23,8 @@
 	<config>
 		<fields name="params">
 			<fieldset name="basic">
-				<field name="guild" type="text" default="" size="30" required="true" label="MOD_WOW_GUILD_MEMBERS_GUILD_LABEL" description="MOD_WOW_GUILD_MEMBERS_GUILD_DESC" />
-				<field name="realm" type="text" default="" size="30" required="true" label="MOD_WOW_GUILD_MEMBERS_REALM_LABEL" description="MOD_WOW_GUILD_MEMBERS_REALM_DESC" />
+				<field name="guild" type="text" default="" size="30" required="true" label="MOD_WOW_GUILD_MEMBERS_GUILD_LABEL" />
+				<field name="realm" type="text" default="" size="30" required="true" label="MOD_WOW_GUILD_MEMBERS_REALM_LABEL" />
                 <field name="region" type="list" default="" required="true" label="MOD_WOW_GUILD_MEMBERS_REGION_LABEL">
                     <option value="">-- select --</option>
                     <option value="us">USA</option>
@@ -43,7 +43,7 @@
                     <option value="pt">Português</option>
                     <option value="ru">Русский</option>
                 </field>
-                <field name="link" type="list" default="battle.net" required="true" label="MOD_WOW_GUILD_MEMBERS_LINK_LABEL" description="MOD_WOW_GUILD_MEMBERS_LINK_DESC">
+                <field name="link" type="list" default="battle.net" required="true" label="MOD_WOW_GUILD_MEMBERS_LINK_LABEL">
                     <option value="battle.net">battle.net</option>
                     <option value="wowhead.com">wowhead.com</option>
                 </field>
