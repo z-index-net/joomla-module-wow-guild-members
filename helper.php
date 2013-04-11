@@ -12,13 +12,11 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.http.http');
-
 abstract class mod_wow_guild_members {
 
     public static function _(JRegistry &$params, stdClass &$module) {
     	
-        if (!$params->get('region') || !$params->get('realm') || !$params->get('guild')) {
+        if(!$params->get('region') || !$params->get('realm') || !$params->get('guild')) {
             return 'please configure Module - ' . __CLASS__;
         }
 
