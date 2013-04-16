@@ -13,7 +13,7 @@
 
 defined('_JEXEC') or die;
 
-JFactory::getDocument()->addStyleSheet(JURI::base(true) . '/modules/' . $module->module . '/tmpl/stylesheet.css');
+JFactory::getDocument()->addStyleSheet(JUri::base(true) . '/modules/' . $module->module . '/tmpl/stylesheet.css');
 ?>
 <table class="mod_wow_guild_members">
 <?php if($params->get('display_thead')) { ?>

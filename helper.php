@@ -56,7 +56,7 @@ abstract class mod_wow_guild_members {
         	$result->body['members'][$key] = $member['character'];
         }
 
-        $img_path = JURI::root() . 'modules/' . $module->module . '/tmpl/images/';
+        $img_path = JUri::root() . 'modules/' . $module->module . '/tmpl/images/';
 
         self::sort($result->body['members'], $params);
         
