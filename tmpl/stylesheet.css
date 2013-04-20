@@ -4,6 +4,11 @@ table.mod_wow_guild_members {
 	width: 100%;
 }
 
-table.mod_wow_guild_members td, table.mod_wow_guild_members th {
+table.mod_wow_guild_members td,
+table.mod_wow_guild_members th {
 	padding: 2px;
+}
+
+table.mod_wow_guild_members .level {
+	text-align: center;
 }

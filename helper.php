@@ -74,7 +74,7 @@ abstract class mod_wow_guild_members {
             unset($result->body['members'][$key]);
         }
         
-        return !empty($result->body['members']) ? $result->body['members'] : 'No members found based on the configuration';
+        return !empty($result->body['members']) ? $result->body['members'] : JText::_('MOD_WOW_GUILD_MEMBERS_NOTHING_FOUND');
    }
     
    private static function sort(&$members, &$params) {
