@@ -7,7 +7,7 @@
  * @link       http://www.z-index.net
  * @copyright  (c) 2012 - 2013 Branko Wilhelm
  * @package    mod_wow_guild_members
- * @license    GNU General Public License v3
+ * @license    GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * @version    $Id$
  */
 
@@ -16,11 +16,6 @@ defined('_JEXEC') or die;
 abstract class mod_wow_guild_members {
 
     public static function _(JRegistry &$params, stdClass &$module) {
-    	
-        if(!$params->get('region') || !$params->get('realm') || !$params->get('guild')) {
-            return 'please configure Module - ' . __CLASS__;
-        }
-
         $url = 'http://' . $params->get('region') . '.battle.net/api/wow/guild/' . $params->get('realm') . '/' . $params->get('guild') . '?fields=members';
 
         $cache = JFactory::getCache(__CLASS__, 'output');
