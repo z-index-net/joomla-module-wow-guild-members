@@ -19,7 +19,7 @@ abstract class mod_wow_guild_members {
         $url = 'http://' . $params->get('region') . '.battle.net/api/wow/guild/' . $params->get('realm') . '/' . $params->get('guild') . '?fields=members';
 
         $cache = JFactory::getCache(__CLASS__, 'output');
-    	$cache->setCaching(0);
+    	$cache->setCaching(1);
     	$cache->setLifeTime($params->get('cache_time', 60));
     	
     	$key = md5($url);
