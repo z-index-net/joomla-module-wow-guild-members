@@ -23,7 +23,7 @@ abstract class mod_wow_guild_members {
     	$cache->setLifeTime($params->get('cache_time', 60));
     	
     	$key = md5($url);
-    	
+    	domix($url);
     	if(!$result = $cache->get($key)) {
     		try {
     			$http = new JHttp(new JRegistry, new JHttpTransportCurl(new JRegistry));
@@ -96,6 +96,7 @@ abstract class mod_wow_guild_members {
         $rc[10] = array('BloodElf_Male.gif', 'BloodElf_Female.gif');
         $rc[11] = array('Draenei_Male.png', 'Draenei_Female.png');
         $rc[22] = array('Worgen_Male.gif', 'Worgen_Female.gif');
+        $rc[25] = array('Pandaren_Male.gif', 'Pandaren_Female.gif');
         $rc[26] = array('Pandaren_Male.gif', 'Pandaren_Female.gif');
 
         return isset($rc[$race][$gender]) ? $rc[$race][$gender] : 'unknow.gif';
