@@ -23,7 +23,7 @@ abstract class mod_wow_guild_members {
     	$cache->setLifeTime($params->get('cache_time', 60));
     	
     	$key = md5($url);
-    	domix($url);
+    	
     	if(!$result = $cache->get($key)) {
     		try {
     			$http = new JHttp(new JRegistry, new JHttpTransportCurl(new JRegistry));
