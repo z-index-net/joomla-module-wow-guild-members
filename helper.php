@@ -1,16 +1,12 @@
 <?php
 
 /**
- * WoW Guild Members
- *
- * @author     Branko Wilhelm <bw@z-index.net>
+ * @author     Branko Wilhelm <branko.wilhelm@gmail.com>
  * @link       http://www.z-index.net
- * @copyright  (c) 2012 - 2013 Branko Wilhelm
- * @package    mod_wow_guild_members
+ * @copyright  (c) 2013 Branko Wilhelm
  * @license    GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
- * @version    $Id$
  */
-
+ 
 defined('_JEXEC') or die;
 
 abstract class mod_wow_guild_members {
