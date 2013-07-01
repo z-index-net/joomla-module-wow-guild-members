@@ -31,7 +31,7 @@
 			<fileset refid="allfiles" />
 			<filterchain>
 				<replacetokens>
-					<token key="SVN_REVISION" value="rev ${revision}" />
+					<token key="REVISION" value="rev ${revision}" />
 				</replacetokens>
 			</filterchain>
 		</copy>
