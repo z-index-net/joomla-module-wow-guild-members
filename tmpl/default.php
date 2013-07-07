@@ -26,7 +26,7 @@ JFactory::getDocument()->addStyleSheet(JUri::base(true) . '/modules/' . $module-
 </thead>
 <?php } ?>
 <tbody>
-    <?php foreach ($members as $member) { ?>
+    <?php foreach ($members as $member) : ?>
     <tr>
         <td class="name">
         <?php if($params->get('display_race')) echo $member['race']; ?> 
@@ -40,6 +40,6 @@ JFactory::getDocument()->addStyleSheet(JUri::base(true) . '/modules/' . $module-
         <td class="level"><?php echo $member['level']; ?></td>
         <?php } ?>
     </tr>
-    <?php } ?>
+    <?php endforeach; ?>
 </tbody>
 </table>
