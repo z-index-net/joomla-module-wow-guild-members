@@ -43,7 +43,6 @@ abstract class mod_wow_guild_members {
         	$member['character']['rank'] = $member['rank'];
         	$member['character']['race'] = self::getRace($member['character']['race'], $member['character']['gender']);
         	$member['character']['class'] = self::getClass($member['character']['class']);
-        	unset($member['character']['thumbnail'], $member['character']['achievementPoints'], $member['character']['realm']); // is not required
         	$result->body['members'][$key] = $member['character'];
         }
 
@@ -52,13 +51,14 @@ abstract class mod_wow_guild_members {
         self::sort($result->body['members'], $params);
         
 		$ranks = $params->get('ranks', array());
-        
+    	
         foreach($result->body['members'] as $key => &$member) {
             if(empty($ranks) || in_array($member['rank'], $ranks)) {
+            	$class = $params->get('display_colored', 1) ? basename(strtolower($member['class']), '.gif') : '';
             	$member['link'] = self::link($member['name'], $params);
+                $member['name'] = JHtml::_('link', $member['link'], $member['name'], array('target' => '_blank', 'class' => 'name '.$class));
                 $member['race'] = JHtml::_('link', $member['link'], JHtml::_('image', $img_path . $member['race'], $member['race']), array('target' => '_blank', 'class' => 'race'));
                 $member['class'] = JHtml::_('link', $member['link'], JHtml::_('image', $img_path . $member['class'], $member['class']), array('target' => '_blank', 'class' => 'class'));
-                $member['name'] = JHtml::_('link', $member['link'], $member['name'], array('target' => '_blank', 'class' => 'name'));
                 $member['rank'] = $params->get('rank_' . $member['rank'], 'Rank ' . $member['rank']);
                 continue;
             }

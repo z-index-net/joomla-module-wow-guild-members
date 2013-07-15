@@ -10,3 +10,47 @@ table.mod_wow_guild_members th {
 table.mod_wow_guild_members .level {
 	text-align: center;
 }
+
+.mod_wow_guild_members .deathknight {
+	color: #C41F3B;
+}
+
+.mod_wow_guild_members .druid {
+	color: #FF7D0A;
+}
+
+.mod_wow_guild_members .hunter {
+	color: #ABD473;
+}
+
+.mod_wow_guild_members .mage {
+	color: #69CCF0;
+}
+
+.mod_wow_guild_members .monk {
+	color: #00FF96;
+}
+
+.mod_wow_guild_members .paladin {
+	color: #F58CBA;
+}
+
+.mod_wow_guild_members .priest {
+	color: #FFFFFF;
+}
+
+.mod_wow_guild_members .rogue {
+	color: #FFF569;
+}
+
+.mod_wow_guild_members .shaman {
+	color: #0070DE;
+}
+
+.mod_wow_guild_members .warlock {
+	color: #9482C9;
+}
+
+.mod_wow_guild_members .warrior {
+	color: #C79C6E;
+}

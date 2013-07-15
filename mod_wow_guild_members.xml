@@ -92,6 +92,10 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
+                <field name="display_colored" type="radio" default="1" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_COLORED_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_COLORED_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
 			</fieldset>
             <fieldset name="RANKS">
                 <field name="rank_0" type="text" default="Guildmaster" size="30" label="MOD_WOW_GUILD_MEMBERS_RANK_0_LABEL" />
