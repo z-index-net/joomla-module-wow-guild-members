@@ -11,6 +11,19 @@ table.mod_wow_guild_members .level {
 	text-align: center;
 }
 
+table.mod_wow_guild_members td.points {
+	text-align: right;
+}
+
+table.mod_wow_guild_members .index {
+	text-align: center;
+}
+
+table.mod_wow_guild_members td.index.idx_1 {
+	background-image: url(./images/crown.png);
+	background-repeat: no-repeat;
+}
+
 .mod_wow_guild_members .deathknight {
 	color: #C41F3B;
 }

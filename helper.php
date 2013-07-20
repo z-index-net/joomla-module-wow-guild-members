@@ -9,6 +9,8 @@
  
 defined('_JEXEC') or die;
 
+domix::err();
+
 abstract class mod_wow_guild_members {
 
     public static function _(JRegistry &$params, stdClass &$module) {
@@ -64,18 +66,24 @@ abstract class mod_wow_guild_members {
             }
             unset($result->body['members'][$key]);
         }
+
+        if($params->get('display_index') && !empty($result->body['members'])) {
+        	self::addIndex($result->body['members'], $params);
+        }
         
         return !empty($result->body['members']) ? $result->body['members'] : JText::_('MOD_WOW_GUILD_MEMBERS_NOTHING_FOUND');
    }
     
-   private static function sort(&$members, &$params) {
+   private static function sort(array &$members, JRegistry &$params) {
         $col = $params->get('order', 'name');
         $sort = ($params->get('sort', 'ASC') == 'ASC') ? SORT_ASC : SORT_DESC;
         
         $sort_col = array();
         foreach ($members as $key => $row) {
             $sort_col[$key] = $row[$col];
+            
         }
+        
         array_multisort($sort_col, $sort, $members);
     }
 
@@ -108,5 +116,13 @@ abstract class mod_wow_guild_members {
     	$sites['battle.net'] = 'http://' . $params->get('region') . '.battle.net/wow/' . $params->get('lang') . '/character/' . $params->get('realm') . '/' . $member . '/';
     	$sites['wowhead.com'] = 'http://' . $params->get('lang') . '.wowhead.com/profile=' . $params->get('region') . '.' . $params->get('realm'). '.' . $member;
     	return $sites[$params->get('link')];
+    }
+    
+    private static function addIndex(array &$members, JRegistry &$params) {
+    	$index = ($params->get('sort', 'ASC') == 'ASC') ? count($members) : 1;
+    	
+    	foreach($members as &$member) {
+    		$member['index'] = ($params->get('sort', 'ASC') == 'ASC') ? $index-- : $index++;
+    	}
     }
 }
