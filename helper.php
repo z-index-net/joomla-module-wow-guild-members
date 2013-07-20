@@ -66,12 +66,16 @@ abstract class mod_wow_guild_members {
             }
             unset($result->body['members'][$key]);
         }
+        
+        if(empty($result->body['members'])) {
+        	return JText::_('MOD_WOW_GUILD_MEMBERS_NOTHING_FOUND');
+        }
 
-        if($params->get('display_index') && !empty($result->body['members'])) {
+        if($params->get('display_index')) {
         	self::addIndex($result->body['members'], $params);
         }
         
-        return !empty($result->body['members']) ? $result->body['members'] : JText::_('MOD_WOW_GUILD_MEMBERS_NOTHING_FOUND');
+        return array_slice($result->body['members'], 0, $params->get('rows') ? $params->get('rows') : count($result->body['members']));
    }
     
    private static function sort(array &$members, JRegistry &$params) {
