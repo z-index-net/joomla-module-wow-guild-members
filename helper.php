@@ -9,8 +9,6 @@
  
 defined('_JEXEC') or die;
 
-domix::err();
-
 abstract class mod_wow_guild_members {
 
     public static function _(JRegistry &$params, stdClass &$module) {
