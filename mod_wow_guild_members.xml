@@ -94,7 +94,7 @@
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
-				 <field name="display_points" type="list" default="1" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_POINTS_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_POINTS_DESC">
+				 <field name="display_points" type="list" default="0" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_POINTS_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_POINTS_DESC">
 					<option value="1">JYES</option>
 					<option value="0">JNO</option>
 				</field>
