@@ -121,8 +121,8 @@ abstract class mod_wow_guild_members
 
     private static function link($member, JRegistry &$params)
     {
-        $sites['battle.net'] = 'http://' . $params->get('region') . '.battle.net/wow/' . $params->get('language') . '/character/' . $params->get('realm') . '/' . $member . '/';
-        $sites['wowhead.com'] = 'http://' . $params->get('language') . '.wowhead.com/profile=' . $params->get('region') . '.' . $params->get('realm') . '.' . $member;
+        $sites['battle.net'] = 'http://' . $params->get('region') . '.battle.net/wow/' . $params->get('lang') . '/character/' . $params->get('realm') . '/' . $member . '/';
+        $sites['wowhead.com'] = 'http://' . $params->get('lang') . '.wowhead.com/profile=' . $params->get('region') . '.' . $params->get('realm') . '.' . $member;
         return $sites[$params->get('link')];
     }
 

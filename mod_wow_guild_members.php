@@ -20,7 +20,7 @@ if (version_compare(JVERSION, 3, '>=')) {
 }
 
 $params->set('region', JString::strtolower($params->get('region')));
-$params->set('language', JString::strtolower($params->get('language', 'en')));
+$params->set('lang', JString::strtolower($params->get('lang', 'en')));
 $params->set('link', $params->get('link', 'battle.net'));
 
 $members = mod_wow_guild_members::_($params, $module);
