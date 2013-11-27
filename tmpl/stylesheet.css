@@ -1,69 +1,69 @@
 table.mod_wow_guild_members {
-	width: 100%;
+    width: 100%;
 }
 
 table.mod_wow_guild_members td,
 table.mod_wow_guild_members th {
-	padding: 2px;
+    padding: 2px;
 }
 
 table.mod_wow_guild_members .level {
-	text-align: center;
+    text-align: center;
 }
 
 table.mod_wow_guild_members td.points {
-	text-align: right;
+    text-align: right;
 }
 
 table.mod_wow_guild_members .index {
-	text-align: center;
+    text-align: center;
 }
 
 table.mod_wow_guild_members td.index.idx_1 {
-	background-image: url(./images/crown.png);
-	background-repeat: no-repeat;
+    background-image: url('./images/crown.png');
+    background-repeat: no-repeat;
 }
 
 .mod_wow_guild_members .deathknight {
-	color: #C41F3B;
+    color: #C41F3B;
 }
 
 .mod_wow_guild_members .druid {
-	color: #FF7D0A;
+    color: #FF7D0A;
 }
 
 .mod_wow_guild_members .hunter {
-	color: #ABD473;
+    color: #ABD473;
 }
 
 .mod_wow_guild_members .mage {
-	color: #69CCF0;
+    color: #69CCF0;
 }
 
 .mod_wow_guild_members .monk {
-	color: #00FF96;
+    color: #00FF96;
 }
 
 .mod_wow_guild_members .paladin {
-	color: #F58CBA;
+    color: #F58CBA;
 }
 
 .mod_wow_guild_members .priest {
-	color: #FFFFFF;
+    color: #FFFFFF;
 }
 
 .mod_wow_guild_members .rogue {
-	color: #FFF569;
+    color: #FFF569;
 }
 
 .mod_wow_guild_members .shaman {
-	color: #0070DE;
+    color: #0070DE;
 }
 
 .mod_wow_guild_members .warlock {
-	color: #9482C9;
+    color: #9482C9;
 }
 
 .mod_wow_guild_members .warrior {
-	color: #C79C6E;
+    color: #C79C6E;
 }
