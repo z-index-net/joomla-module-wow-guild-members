@@ -9,11 +9,41 @@
 
 defined('_JEXEC') or die;
 
-abstract class mod_wow_guild_members
+abstract class ModWowGuildMembersHelper
 {
 
-    public static function _(JRegistry &$params, stdClass &$module)
+    public static function getAjax()
     {
+        $module = JModuleHelper::getModule('mod_' . JFactory::getApplication()->input->get('module'));
+
+        if (empty($module)) {
+            return false;
+        }
+
+        JFactory::getLanguage()->load($module->module);
+
+        $params = new JRegistry($module->params);
+        $params->set('ajax', 0);
+
+        ob_start();
+
+        require(dirname(__FILE__) . '/' . $module->module . '.php');
+
+        return ob_get_clean();
+    }
+
+    public static function getData(JRegistry &$params, stdClass &$module)
+    {
+        if ($params->get('ajax')) {
+            return;
+        }
+
+        $params->set('guild', rawurlencode(JString::strtolower($params->get('guild'))));
+        $params->set('realm', rawurlencode(JString::strtolower($params->get('realm'))));
+        $params->set('region', JString::strtolower($params->get('region')));
+        $params->set('lang', JString::strtolower($params->get('lang', 'en')));
+        $params->set('link', $params->get('link', 'battle.net'));
+
         $url = 'http://' . $params->get('region') . '.battle.net/api/wow/guild/' . $params->get('realm') . '/' . $params->get('guild') . '?fields=members,achievements';
 
         $cache = JFactory::getCache('wow', 'output');
@@ -24,7 +54,7 @@ abstract class mod_wow_guild_members
 
         if (!$result = $cache->get($key)) {
             try {
-                $http = new JHttp(new JRegistry, new JHttpTransportCurl(new JRegistry));
+                $http = JHttpFactory::getHttp();
                 $http->setOption('userAgent', 'Joomla! ' . JVERSION . '; WoW Guild Members Module; php/' . phpversion());
 
                 $result = $http->get($url, null, $params->get('timeout', 10));
@@ -100,7 +130,7 @@ abstract class mod_wow_guild_members
 
     private static function getClass($class)
     {
-        $cl = array(0 => null, 'Warrior.gif', 'Paladin.gif', 'Hunter.gif', 'Rogue.gif', 'Priest.gif', 'Deathknight.gif', 'Shaman.gif', 'Mage.gif', 'Warlock.gif', 'Monk.gif', 'Druid.gif');
+        $cl = array(null, 'Warrior.gif', 'Paladin.gif', 'Hunter.gif', 'Rogue.gif', 'Priest.gif', 'Deathknight.gif', 'Shaman.gif', 'Mage.gif', 'Warlock.gif', 'Monk.gif', 'Druid.gif');
 
         return isset($cl[$class]) ? $cl[$class] : 'unknow.gif';
     }

@@ -1,27 +1,26 @@
-table.mod_wow_guild_members {
+.mod_wow_guild_members {
     width: 100%;
 }
 
-table.mod_wow_guild_members td,
-table.mod_wow_guild_members th {
+.mod_wow_guild_members td,
+.mod_wow_guild_members th {
     padding: 2px;
 }
 
-table.mod_wow_guild_members .level {
+.mod_wow_guild_members .level {
     text-align: center;
 }
 
-table.mod_wow_guild_members td.points {
+.mod_wow_guild_members .points {
     text-align: right;
 }
 
-table.mod_wow_guild_members .index {
+.mod_wow_guild_members .index {
     text-align: center;
 }
 
-table.mod_wow_guild_members td.index.idx_1 {
-    background-image: url('./images/crown.png');
-    background-repeat: no-repeat;
+.mod_wow_guild_members .index.idx_1 {
+    background: url('./images/crown.png') no-repeat;
 }
 
 .mod_wow_guild_members .deathknight {

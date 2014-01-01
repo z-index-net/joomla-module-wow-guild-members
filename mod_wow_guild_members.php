@@ -9,23 +9,11 @@
 
 defined('_JEXEC') or die;
 
-require_once dirname(__FILE__) . '/helper.php';
+JLoader::register('ModWowGuildMembersHelper', dirname(__FILE__) . '/helper.php');
 
-if (version_compare(JVERSION, 3, '>=')) {
-    $params->set('guild', rawurlencode(JString::strtolower($params->get('guild'))));
-    $params->set('realm', rawurlencode(JString::strtolower($params->get('realm'))));
-} else {
-    $params->set('realm', str_replace(array('%20', ' '), '-', $params->get('realm')));
-    $params->set('guild', str_replace(array('%20', ' '), '%2520', $params->get('guild')));
-}
+$members = ModWowGuildMembersHelper::getData($params, $module);
 
-$params->set('region', JString::strtolower($params->get('region')));
-$params->set('lang', JString::strtolower($params->get('lang', 'en')));
-$params->set('link', $params->get('link', 'battle.net'));
-
-$members = mod_wow_guild_members::_($params, $module);
-
-if (!is_array($members)) {
+if (!$params->get('ajax') && !is_array($members)) {
     echo $members;
     return;
 }
