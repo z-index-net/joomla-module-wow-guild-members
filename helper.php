@@ -91,20 +91,17 @@ abstract class ModWowGuildMembersHelper
         $ranks = $params->get('ranks', array());
 
         foreach ($result->body['members'] as $key => &$member) {
-            if (($params->get('level_min') && $member['level'] < $params->get('level_min')) || ($params->get('level_max') && $member['level'] > $params->get('level_max'))) {
+            if (($params->get('level_min') && $member['level'] < $params->get('level_min')) || ($params->get('level_max') && $member['level'] > $params->get('level_max')) || (!empty($ranks) && !in_array($member['rank'], $ranks))) {
                 unset($result->body['members'][$key]);
-            }
-
-            if (empty($ranks) || in_array($member['rank'], $ranks)) {
-                $class = $params->get('display_colored', 1) ? basename(strtolower($member['class']), '.gif') : '';
-                $member['link'] = self::link($member['name'], $params);
-                $member['name'] = JHtml::_('link', $member['link'], $member['name'], array('target' => '_blank', 'class' => 'name ' . $class));
-                $member['race'] = JHtml::_('link', $member['link'], JHtml::_('image', $img_path . $member['race'], $member['race']), array('target' => '_blank', 'class' => 'race'));
-                $member['class'] = JHtml::_('link', $member['link'], JHtml::_('image', $img_path . $member['class'], $member['class']), array('target' => '_blank', 'class' => 'class'));
-                $member['rank'] = $params->get('rank_' . $member['rank'], 'Rank ' . $member['rank']);
                 continue;
             }
-            unset($result->body['members'][$key]);
+
+            $class = $params->get('display_colored', 1) ? basename(strtolower($member['class']), '.gif') : '';
+            $member['link'] = self::link($member['name'], $params);
+            $member['name'] = JHtml::_('link', $member['link'], $member['name'], array('target' => '_blank', 'class' => 'name ' . $class));
+            $member['race'] = JHtml::_('link', $member['link'], JHtml::_('image', $img_path . $member['race'], $member['race']), array('target' => '_blank', 'class' => 'race'));
+            $member['class'] = JHtml::_('link', $member['link'], JHtml::_('image', $img_path . $member['class'], $member['class']), array('target' => '_blank', 'class' => 'class'));
+            $member['rank'] = $params->get('rank_' . $member['rank'], 'Rank ' . $member['rank']);
         }
 
         if (empty($result->body['members'])) {
