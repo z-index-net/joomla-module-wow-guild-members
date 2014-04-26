@@ -87,10 +87,10 @@
             <fieldset name="DISPLAY">
                 <field name="rows" type="text" filter="integer" size="3" maxlength="3" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_ROWS_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_ROWS_DESC" />
                 <field name="level_min" type="integer" first="10" step="1" last="90" default="" filter="integer" label="MOD_WOW_GUILD_MEMBERS_LEVEL_MIN_LABEL" description="MOD_WOW_GUILD_MEMBERS_LEVEL_MIN_DESC">
-                    <option value="">JALL</option>
+                    <option value="">JNONE</option>
                 </field>
                 <field name="level_max" type="integer" first="10" step="1" last="90" default="" filter="integer" label="MOD_WOW_GUILD_MEMBERS_LEVEL_MAX_LABEL" description="MOD_WOW_GUILD_MEMBERS_LEVEL_MAX_DESC">
-                    <option value="">JALL</option>
+                    <option value="">JNONE</option>
                 </field>
                 <field name="display_thead" type="radio" class="btn-group" default="1" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_THEAD_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_THEAD_DESC">
                 <option value="1">JYES</option>
