@@ -52,8 +52,8 @@
                     <option value="battle.net">battle.net</option>
                     <option value="wowhead.com">wowhead.com</option>
                 </field>
-                <field name="ranks" type="list" default="name" label="MOD_WOW_GUILD_MEMBERS_RANKS_LABEL" description="MOD_WOW_GUILD_MEMBERS_RANKS_DESC" multiple="true" size="11">
-                    <option value="0">MOD_WOW_GUILD_MEMBERS_RANK_0_LABEL</option>
+                <field name="ranks" type="list" default="" label="MOD_WOW_GUILD_MEMBERS_RANKS_LABEL" description="MOD_WOW_GUILD_MEMBERS_RANKS_DESC" multiple="true" size="11">
+                <option value="0">MOD_WOW_GUILD_MEMBERS_RANK_0_LABEL</option>
                     <option value="1">MOD_WOW_GUILD_MEMBERS_RANK_1_LABEL</option>
                     <option value="2">MOD_WOW_GUILD_MEMBERS_RANK_2_LABEL</option>
                     <option value="3">MOD_WOW_GUILD_MEMBERS_RANK_3_LABEL</option>
@@ -76,7 +76,7 @@
                     <option value="ASC">MOD_WOW_GUILD_MEMBERS_SORT_ASC_LABEL</option>
                     <option value="DESC">MOD_WOW_GUILD_MEMBERS_SORT_DESC_LABEL</option>
                 </field>
-                <field name="cache_time" type="text" filter="integer" default="24" size="5" required="true" label="MOD_WOW_GUILD_MEMBERS_CACHE_LABEL" description="MOD_WOW_GUILD_MEMBERS_CACHE_DESC" />
+                <field name="cache_time" type="text" filter="integer" default="60" size="5" required="true" label="MOD_WOW_GUILD_MEMBERS_CACHE_LABEL" description="MOD_WOW_GUILD_MEMBERS_CACHE_DESC" />
                 <field name="timeout" type="text" filter="integer" default="10" size="5" required="true" label="MOD_WOW_GUILD_MEMBERS_TIMEOUT_LABEL" description="MOD_WOW_GUILD_MEMBERS_TIMEOUT_DESC" />
                 <field name="ajax" type="ajax" class="btn-group" label="Ajax" default="0" />
             </fieldset>
@@ -86,36 +86,42 @@
             </fieldset>
             <fieldset name="DISPLAY">
                 <field name="rows" type="text" filter="integer" size="3" maxlength="3" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_ROWS_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_ROWS_DESC" />
-                <field name="display_thead" type="list" default="1" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_THEAD_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_THEAD_DESC">
-                    <option value="1">JYES</option>
+                <field name="level_min" type="integer" first="10" step="1" last="90" default="" filter="integer" label="MOD_WOW_GUILD_MEMBERS_LEVEL_MIN_LABEL" description="MOD_WOW_GUILD_MEMBERS_LEVEL_MIN_DESC">
+                    <option value="">JALL</option>
+                </field>
+                <field name="level_max" type="integer" first="10" step="1" last="90" default="" filter="integer" label="MOD_WOW_GUILD_MEMBERS_LEVEL_MAX_LABEL" description="MOD_WOW_GUILD_MEMBERS_LEVEL_MAX_DESC">
+                    <option value="">JALL</option>
+                </field>
+                <field name="display_thead" type="radio" class="btn-group" default="1" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_THEAD_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_THEAD_DESC">
+                <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-                <field name="display_ranks" type="list" default="1" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_RANKS_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_RANKS_DESC">
-                    <option value="1">JYES</option>
+                <field name="display_ranks" type="radio" class="btn-group" default="1" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_RANKS_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_RANKS_DESC">
+                <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-                <field name="display_level" type="list" default="1" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_LEVEL_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_LEVEL_DESC">
-                    <option value="1">JYES</option>
+                <field name="display_level" type="radio" class="btn-group" default="1" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_LEVEL_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_LEVEL_DESC">
+                <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-                <field name="display_race" type="list" default="1" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_RACE_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_RACE_DESC">
-                    <option value="1">JYES</option>
+                <field name="display_race" type="radio" class="btn-group" default="1" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_RACE_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_RACE_DESC">
+                <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-                <field name="display_class" type="list" default="1" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_CLASS_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_CLASS_DESC">
-                    <option value="1">JYES</option>
+                <field name="display_class" type="radio" class="btn-group" default="1" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_CLASS_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_CLASS_DESC">
+                <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-                <field name="display_points" type="list" default="0" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_POINTS_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_POINTS_DESC">
-                    <option value="1">JYES</option>
+                <field name="display_points" type="radio" class="btn-group" default="0" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_POINTS_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_POINTS_DESC">
+                <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-                <field name="display_colored" type="list" default="1" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_COLORED_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_COLORED_DESC">
-                    <option value="1">JYES</option>
+                <field name="display_colored" type="radio" class="btn-group" default="1" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_COLORED_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_COLORED_DESC">
+                <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
-                <field name="display_index" type="list" default="0" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_INDEX_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_INDEX_DESC">
-                    <option value="1">JYES</option>
+                <field name="display_index" type="radio" class="btn-group" default="0" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_INDEX_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_INDEX_DESC">
+                <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
             </fieldset>

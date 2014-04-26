@@ -36,8 +36,8 @@ class JFormFieldAjax extends JFormFieldRadio
 
     protected function getOptions()
     {
-        $options[] = JHtml::_('select.option', 0, JText::_('JNO'));
         $options[] = JHtml::_('select.option', 1, JText::_('JYES'));
+        $options[] = JHtml::_('select.option', 0, JText::_('JNO'));
 
         return $options;
     }

@@ -54,7 +54,7 @@ abstract class ModWowGuildMembersHelper
 
         $cache = JFactory::getCache('wow', 'output');
         $cache->setCaching(1);
-        $cache->setLifeTime($params->get('cache_time', 24) * 60);
+        $cache->setLifeTime($params->get('cache_time', 60) * 60);
 
         $key = md5($url);
 
@@ -91,6 +91,10 @@ abstract class ModWowGuildMembersHelper
         $ranks = $params->get('ranks', array());
 
         foreach ($result->body['members'] as $key => &$member) {
+            if (($params->get('level_min') && $member['level'] < $params->get('level_min')) || ($params->get('level_max') && $member['level'] > $params->get('level_max'))) {
+                unset($result->body['members'][$key]);
+            }
+
             if (empty($ranks) || in_array($member['rank'], $ranks)) {
                 $class = $params->get('display_colored', 1) ? basename(strtolower($member['class']), '.gif') : '';
                 $member['link'] = self::link($member['name'], $params);
