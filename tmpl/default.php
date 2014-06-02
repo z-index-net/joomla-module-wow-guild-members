@@ -9,6 +9,10 @@
 
 defined('_JEXEC') or die;
 
+$break = '';
+
+$media_path = 'http://' . $params->get('region') . '.media.blizzard.com/wow/icons/18/';
+
 JFactory::getDocument()->addStyleSheet(JUri::base(true) . '/modules/' . $module->module . '/tmpl/default.css');
 ?>
 <?php if ($params->get('ajax')) : ?>
@@ -16,46 +20,73 @@ JFactory::getDocument()->addStyleSheet(JUri::base(true) . '/modules/' . $module-
 <?php else: ?>
     <table class="mod_wow_guild_members">
         <?php if ($params->get('display_thead')) { ?>
-            <thead>
             <tr>
                 <?php if ($params->get('display_index')) { ?>
                     <th class="index">#</th>
                 <?php } ?>
                 <th class="name"><?php echo JText::_('MOD_WOW_GUILD_MEMBERS_NAME'); ?></th>
-                <?php if ($params->get('display_ranks')) { ?>
+                <?php if ($params->get('display_race', 1)) { ?>
+                    <th class="rank"><?php echo JText::_('MOD_WOW_GUILD_MEMBERS_RACE'); ?></th>
+                <?php } ?>
+                <?php if ($params->get('display_class', 1)) { ?>
+                    <th class="class"><?php echo JText::_('MOD_WOW_GUILD_MEMBERS_CLASS'); ?></th>
+                <?php } ?>
+                <?php if ($params->get('display_role', 1)) { ?>
+                    <th class="role"><?php echo JText::_('MOD_WOW_GUILD_MEMBERS_ROLE'); ?></th>
+                <?php } ?>
+                <?php if ($params->get('display_ranks', 1)) { ?>
                     <th class="rank"><?php echo JText::_('MOD_WOW_GUILD_MEMBERS_RANK'); ?></th>
                 <?php } ?>
-                <?php if ($params->get('display_level')) { ?>
+                <?php if ($params->get('display_level', 1)) { ?>
                     <th class="level"><?php echo JText::_('MOD_WOW_GUILD_MEMBERS_LEVEL'); ?></th>
                 <?php } ?>
-                <?php if ($params->get('display_points')) { ?>
+                <?php if ($params->get('display_points', 1)) { ?>
                     <th class="level"><?php echo JText::_('MOD_WOW_GUILD_MEMBERS_POINTS'); ?></th>
                 <?php } ?>
             </tr>
-            </thead>
         <?php } ?>
-        <tbody>
         <?php foreach ($members as $member) : ?>
+            <?php if ($params->get('table_break') && $break != $member->{$params->get('table_break')}->title) { ?>
+                <tr class="break">
+                    <th class="<?php echo JFilterOutput::stringURLSafe($member->{$params->get('table_break')}->title); ?>" colspan="5">
+                        <?php echo $member->{$params->get('table_break')}->title; ?>
+                    </th>
+                </tr>
+                <?php $break = $member->{$params->get('table_break')}->title; ?>
+            <?php } ?>
             <tr>
                 <?php if ($params->get('display_index')) { ?>
-                    <td class="index idx_<?php echo $member['index']; ?>"><?php echo $member['index']; ?>.</td>
+                    <td class="index idx_<?php echo $member->index; ?>"><?php echo $member->index; ?>.</td>
                 <?php } ?>
                 <td class="name">
-                    <?php if ($params->get('display_race')) echo $member['race']; ?>
-                    <?php if ($params->get('display_class')) echo $member['class']; ?>
-                    <?php echo $member['name']; ?>
+                    <?php echo JHtml::_('link', $member->name->link, $member->name->title, array('target' => '_blank', 'class' => 'class_' . $member->class->id)); ?>
                 </td>
-                <?php if ($params->get('display_ranks')) { ?>
-                    <td class="rank"><?php echo $member['rank']; ?></td>
+                <?php if ($params->get('display_race', 1)) { ?>
+                    <td class="race">
+                        <?php echo JHtml::_('image', $media_path . $member->race->icon, $member->race->title, array('title' => $member->race->title)); ?>
+                    </td>
                 <?php } ?>
-                <?php if ($params->get('display_level')) { ?>
-                    <td class="level"><?php echo $member['level']; ?></td>
+                <?php if ($params->get('display_class', 1)) { ?>
+                    <td class="race">
+                        <?php echo JHtml::_('image', $media_path . $member->class->icon, $member->class->title, array('title' => $member->class->title)); ?>
+                    </td>
                 <?php } ?>
-                <?php if ($params->get('display_points')) { ?>
-                    <td class="points"><?php echo $member['achievementPoints']; ?></td>
+                <?php if ($params->get('display_role', 1)) { ?>
+                    <td class="race">
+                        <?php echo JHtml::_('image', $media_path . $member->role->icon, $member->role->title, array('title' => $member->role->spec)); ?>
+                    </td>
+                <?php } ?>
+
+                <?php if ($params->get('display_ranks', 1)) { ?>
+                    <td class="rank"><?php echo $member->rank->title; ?></td>
+                <?php } ?>
+                <?php if ($params->get('display_level', 1)) { ?>
+                    <td class="level"><?php echo $member->level->title; ?></td>
+                <?php } ?>
+                <?php if ($params->get('display_points', 1)) { ?>
+                    <td class="points"><?php echo $member->achievementPoints->title; ?></td>
                 <?php } ?>
             </tr>
         <?php endforeach; ?>
-        </tbody>
     </table>
 <?php endif; ?>

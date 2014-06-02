@@ -9,8 +9,28 @@
 
 defined('_JEXEC') or die;
 
-abstract class ModWowGuildMembersHelper
+domix::err();
+
+final class ModWowGuildMembersHelper
 {
+    private $params = null;
+
+    private function __construct(JRegistry &$params)
+    {
+        if (version_compare(JVERSION, 3, '>=')) {
+            $params->set('guild', rawurlencode(JString::strtolower($params->get('guild'))));
+            $params->set('realm', rawurlencode(JString::strtolower($params->get('realm'))));
+        } else {
+            $params->set('realm', str_replace(array('%20', ' '), '-', $params->get('realm')));
+            $params->set('guild', str_replace(array('%20', ' '), '%2520', $params->get('guild')));
+        }
+
+        $params->set('region', JString::strtolower($params->get('region')));
+        $params->set('lang', JString::strtolower($params->get('lang', 'en')));
+        $params->set('link', $params->get('link', 'battle.net'));
+
+        $this->params = & $params;
+    }
 
     public static function getAjax()
     {
@@ -32,29 +52,160 @@ abstract class ModWowGuildMembersHelper
         return ob_get_clean();
     }
 
-    public static function getData(JRegistry &$params, stdClass &$module)
+    public static function getData(JRegistry &$params)
     {
         if ($params->get('ajax')) {
             return;
         }
 
-        if (version_compare(JVERSION, 3, '>=')) {
-            $params->set('guild', rawurlencode(JString::strtolower($params->get('guild'))));
-            $params->set('realm', rawurlencode(JString::strtolower($params->get('realm'))));
-        } else {
-            $params->set('realm', str_replace(array('%20', ' '), '-', $params->get('realm')));
-            $params->set('guild', str_replace(array('%20', ' '), '%2520', $params->get('guild')));
+        $instance = new self($params);
+
+        return $instance->getMembers();
+    }
+
+    private function getMembers()
+    {
+        if ($this->params->get('ajax')) {
+            return;
         }
 
-        $params->set('region', JString::strtolower($params->get('region')));
-        $params->set('lang', JString::strtolower($params->get('lang', 'en')));
-        $params->set('link', $params->get('link', 'battle.net'));
+        if (!$this->params->get('guild') || !$this->params->get('realm')) {
+            return JString::_('MOD_WOW_GUILD_MEMBERS_CONFIGURATION_MISSING');
+        }
 
-        $url = 'http://' . $params->get('region') . '.battle.net/api/wow/guild/' . $params->get('realm') . '/' . $params->get('guild') . '?fields=members,achievements';
+        $url = 'http://' . $this->params->get('region') . '.battle.net/api/wow/guild/' . $this->params->get('realm') . '/' . $this->params->get('guild') . '?fields=members,achievements&locale=' . $this->params->get('lang');
 
         $cache = JFactory::getCache('wow', 'output');
         $cache->setCaching(1);
-        $cache->setLifeTime($params->get('cache_time', 60) * 60);
+        $cache->setLifeTime($this->params->get('cache_time', 60) * 60);
+
+        $result = $this->remoteContent($url);
+
+        if (is_string($result)) {
+            return $result;
+        }
+
+        $result->classes = $this->getClasses();
+        $result->races = $this->getRaces();
+
+        $ranks = $this->params->get('ranks', array());
+
+        foreach ($result->members as $key => $row) {
+            if (($this->params->get('level_min') && $row->character->level < $this->params->get('level_min')) || ($this->params->get('level_max') && $row->character->level > $this->params->get('level_max')) || (!empty($ranks) && !in_array($row->rank, $ranks))) {
+                unset($result->members[$key]);
+                continue;
+            }
+
+            $member = new stdClass;
+
+            $member->name = new stdClass;
+            $member->name->title = $row->character->name;
+            $member->name->avatar = $row->character->thumbnail;
+            $member->name->link = $this->link($row->character->name);
+
+            $member->level = new stdClass;
+            $member->level->title = $row->character->level;
+
+            $member->achievementPoints = new stdClass;
+            $member->achievementPoints->title = $row->character->achievementPoints;
+
+            $member->rank = new stdClass;
+            $member->rank->id = $row->rank;
+            $member->rank->title = $this->params->get('rank_' . $row->rank, JText::_('MOD_WOW_GUILD_MEMBERS_RANK_' . $row->rank . '_LABEL'));
+
+            $member->race = new stdClass;
+            $member->race->id = $result->races[$row->character->race]->id;
+            $member->race->title = $result->races[$row->character->race]->name;
+            $member->race->icon = 'race_' . $member->race->id . '_' . $row->character->gender . '.jpg';
+
+            $member->class = new stdClass;
+            $member->class->id = $result->classes[$row->character->class]->id;
+            $member->class->title = $result->classes[$row->character->class]->name;
+            $member->class->icon = 'class_' . $result->classes[$row->character->class]->id . '.jpg';
+
+            $member->role = new stdClass;
+            $member->role->title = JText::_('MOD_WOW_GUILD_MEMBERS_' . $row->character->spec->role);
+            $member->role->spec = $row->character->spec->name;
+            $member->role->icon = $row->character->spec->icon . '.jpg';
+
+            $member->gender = new stdClass;
+            $member->gender->id = $row->character->gender;
+            $member->gender->title = JText::_('MOD_WOW_GUILD_MEMBERS_GENDER_' . $row->character->gender);
+
+            $result->members[$key] = $member;
+        }
+
+        usort($result->members, array($this, 'sort'));
+
+        if (empty($result->members)) {
+            return JText::_('MOD_WOW_GUILD_MEMBERS_NOTHING_FOUND');
+        }
+
+        if ($this->params->get('display_index')) {
+            $this->addIndex($result->members);
+        }
+
+        return array_slice($result->members, 0, $this->params->get('rows') ? $this->params->get('rows') : count($result->members));
+    }
+
+    private function sort($a, $b)
+    {
+        if ($this->params->get('sort', 'ASC') == 'ASC') {
+            return strcmp($a->{$this->params->get('order', 'name')}->title, $b->{$this->params->get('order', 'name')}->title);
+        } else {
+            return strcmp($b->{$this->params->get('order', 'name')}->title, $a->{$this->params->get('order', 'name')}->title);
+        }
+    }
+
+    private function getRaces()
+    {
+        $result = self::remoteContent('http://' . $this->params->get('region') . '.battle.net/api/wow/data/character/races?locale=' . $this->params->get('lang'), true);
+
+        $tmp = array();
+        foreach ($result->races as $race) {
+            $tmp[$race->id] = $race;
+        }
+
+        unset($result);
+
+        return $tmp;
+    }
+
+    private function getClasses()
+    {
+        $result = self::remoteContent('http://' . $this->params->get('region') . '.battle.net/api/wow/data/character/classes?locale=' . $this->params->get('lang'), true);
+
+        $tmp = array();
+        foreach ($result->classes as $class) {
+            $tmp[$class->id] = $class;
+        }
+
+        unset($result);
+
+        return $tmp;
+    }
+
+    private function link($member)
+    {
+        $sites['battle.net'] = 'http://' . $this->params->get('region') . '.battle.net/wow/' . $this->params->get('lang') . '/character/' . $this->params->get('realm') . '/' . $member . '/';
+        $sites['wowhead.com'] = 'http://' . $this->params->get('lang') . '.wowhead.com/profile=' . $this->params->get('region') . '.' . $this->params->get('realm') . '.' . $member;
+        return $sites[$this->params->get('link')];
+    }
+
+    private function addIndex(array &$members)
+    {
+        $index = ($this->params->get('display_index') == 2) ? count($members) : 1;
+
+        foreach ($members as &$member) {
+            $member->index = ($this->params->get('display_index') == 2) ? $index-- : $index++;
+        }
+    }
+
+    private function remoteContent($url, $persistent = false)
+    {
+        $cache = JFactory::getCache('wow', 'output');
+        $cache->setCaching(1);
+        $cache->setLifeTime($this->params->get('cache_time', 60) * ($persistent ? 172800 : 60)); // randomize cache time a little bit for each url
 
         $key = md5($url);
 
@@ -62,8 +213,7 @@ abstract class ModWowGuildMembersHelper
             try {
                 $http = JHttpFactory::getHttp();
                 $http->setOption('userAgent', 'Joomla! ' . JVERSION . '; WoW Guild Members Module; php/' . phpversion());
-
-                $result = $http->get($url, null, $params->get('timeout', 10));
+                $result = $http->get($url, null, $this->params->get('timeout', 10));
             } catch (Exception $e) {
                 return $e->getMessage();
             }
@@ -75,100 +225,6 @@ abstract class ModWowGuildMembersHelper
             return __CLASS__ . ' HTTP-Status ' . JHtml::_('link', 'http://wikipedia.org/wiki/List_of_HTTP_status_codes#' . $result->code, $result->code, array('target' => '_blank'));
         }
 
-        $result->body = json_decode($result->body, true); // must be an array!
-
-        foreach ($result->body['members'] as $key => $member) {
-            $member['character']['rank'] = $member['rank'];
-            $member['character']['race'] = self::getRace($member['character']['race'], $member['character']['gender']);
-            $member['character']['class'] = self::getClass($member['character']['class']);
-            $result->body['members'][$key] = $member['character'];
-        }
-
-        $img_path = JUri::root() . 'modules/' . $module->module . '/tmpl/images/';
-
-        self::sort($result->body['members'], $params);
-
-        $ranks = $params->get('ranks', array());
-
-        foreach ($result->body['members'] as $key => &$member) {
-            if (($params->get('level_min') && $member['level'] < $params->get('level_min')) || ($params->get('level_max') && $member['level'] > $params->get('level_max')) || (!empty($ranks) && !in_array($member['rank'], $ranks))) {
-                unset($result->body['members'][$key]);
-                continue;
-            }
-
-            $class = $params->get('display_colored', 1) ? basename(strtolower($member['class']), '.gif') : '';
-            $member['link'] = self::link($member['name'], $params);
-            $member['name'] = JHtml::_('link', $member['link'], $member['name'], array('target' => '_blank', 'class' => 'name ' . $class));
-            $member['race'] = JHtml::_('link', $member['link'], JHtml::_('image', $img_path . $member['race'], $member['race']), array('target' => '_blank', 'class' => 'race'));
-            $member['class'] = JHtml::_('link', $member['link'], JHtml::_('image', $img_path . $member['class'], $member['class']), array('target' => '_blank', 'class' => 'class'));
-            $member['rank'] = $params->get('rank_' . $member['rank'], 'Rank ' . $member['rank']);
-        }
-
-        if (empty($result->body['members'])) {
-            return JText::_('MOD_WOW_GUILD_MEMBERS_NOTHING_FOUND');
-        }
-
-        if ($params->get('display_index')) {
-            self::addIndex($result->body['members'], $params);
-        }
-
-        return array_slice($result->body['members'], 0, $params->get('rows') ? $params->get('rows') : count($result->body['members']));
-    }
-
-    private static function getRace($race, $gender)
-    {
-        $rc[1] = array('Human_Male.gif', 'Human_Female.gif');
-        $rc[2] = array('Orc_Male.gif', 'Orc_Female.gif');
-        $rc[3] = array('Dwarf_Male.gif', 'Dwarf_Female.gif');
-        $rc[4] = array('NightElf_Male.gif', 'NightElf_Female.gif');
-        $rc[5] = array('Undead_Male.gif', 'Undead_Female.gif');
-        $rc[6] = array('Tauren_Male.gif', 'Tauren_Female.gif');
-        $rc[7] = array('Gnome_Male.gif', 'Gnome_Female.gif');
-        $rc[8] = array('Troll_Male.gif', 'Troll_Female.gif');
-        $rc[9] = array('Goblin_Male.gif', 'Goblin_Female.gif');
-        $rc[10] = array('BloodElf_Male.gif', 'BloodElf_Female.gif');
-        $rc[11] = array('Draenei_Male.png', 'Draenei_Female.png');
-        $rc[22] = array('Worgen_Male.gif', 'Worgen_Female.gif');
-        $rc[25] = array('Pandaren_Male.gif', 'Pandaren_Female.gif');
-        $rc[26] = array('Pandaren_Male.gif', 'Pandaren_Female.gif');
-
-        return isset($rc[$race][$gender]) ? $rc[$race][$gender] : 'unknow.gif';
-    }
-
-    private static function getClass($class)
-    {
-        $cl = array(null, 'Warrior.gif', 'Paladin.gif', 'Hunter.gif', 'Rogue.gif', 'Priest.gif', 'Deathknight.gif', 'Shaman.gif', 'Mage.gif', 'Warlock.gif', 'Monk.gif', 'Druid.gif');
-
-        return isset($cl[$class]) ? $cl[$class] : 'unknow.gif';
-    }
-
-    private static function sort(array &$members, JRegistry &$params)
-    {
-        $col = $params->get('order', 'name');
-        $sort = ($params->get('sort', 'ASC') == 'ASC') ? SORT_ASC : SORT_DESC;
-
-        $sort_col = array();
-        foreach ($members as $key => $row) {
-            $sort_col[$key] = $row[$col];
-
-        }
-
-        array_multisort($sort_col, $sort, $members);
-    }
-
-    private static function link($member, JRegistry &$params)
-    {
-        $sites['battle.net'] = 'http://' . $params->get('region') . '.battle.net/wow/' . $params->get('lang') . '/character/' . $params->get('realm') . '/' . $member . '/';
-        $sites['wowhead.com'] = 'http://' . $params->get('lang') . '.wowhead.com/profile=' . $params->get('region') . '.' . $params->get('realm') . '.' . $member;
-        return $sites[$params->get('link')];
-    }
-
-    private static function addIndex(array &$members, JRegistry &$params)
-    {
-        $index = ($params->get('sort', 'ASC') == 'ASC') ? count($members) : 1;
-
-        foreach ($members as &$member) {
-            $member['index'] = ($params->get('sort', 'ASC') == 'ASC') ? $index-- : $index++;
-        }
+        return json_decode($result->body);
     }
 }

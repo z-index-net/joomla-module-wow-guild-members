@@ -7,6 +7,21 @@
     padding: 2px;
 }
 
+.mod_wow_guild_members .race,
+.mod_wow_guild_members .class,
+.mod_wow_guild_members .role {
+    width: 20px;
+}
+
+.mod_wow_guild_members .break {
+    text-align: left;
+    font-size: 1.2em;
+}
+
+.mod_wow_guild_members .name img {
+    vertical-align: middle;
+}
+
 .mod_wow_guild_members .level {
     text-align: center;
 }
@@ -20,49 +35,49 @@
 }
 
 .mod_wow_guild_members .index.idx_1 {
-    background: url('./images/crown.png') no-repeat;
+    background: no-repeat url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAAd0SU1FB9oEDwsAG1SiBXIAAABBdEVYdENvbW1lbnQAQ1JFQVRPUjogZ2QtanBlZyB2MS4wICh1c2luZyBJSkcgSlBFRyB2NjIpLCBxdWFsaXR5ID0gOTMKm2gLUAAABBtJREFUOBEBEATv+wAAAAAAAAAAAAAAAAAAAAAAAL0yAADy6QL/qRkD7MAiA0LrtQOZ1T0BWv+mAP8k0ACj8CADcv86AnOh8wH/mE4CAAAAAAAAAAAAAAAAAAAAAACflwAA4uYAAzKO/wEAAP8A//oBBQAAAADQ/x4D/4d1A//HOwH/Q7gB//8AAT/4xwAAAAAAAAAAAAAAAAAAAAAAAAAIAADAANYCANH/Aj7/dwPAvlAB7OohAzfuLQNbQfEBeYVEAswA5AHp6wQB//cAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAOPfARLq1wEz4JhlAgCC/wH/AP8Bs+4BB9fiASHy/yABAO+sAQ9J/wD/sAwCAAAAAAAA7v8AAAAAANnEAAAAAAAA//oAHfHdALf02gY35f8HBraUAD7/9wAj6d8AgP+nZAVGzUwClf8AA/8Q/wACZGwvAQARmQMAAAAAJjsWA76fAD/96AAXCAQAEAUC+oIT2/lS/hAAZ9jIAHEHAgBEACqhFroa1wH46Rf/AM0kAgMAtrIC5gZQDmZQAFENFfbs5N4AauvuAGUbGgD7AQQADvcEADDw7QAwFAsAGxMUAPzxBv7w1BER0ZPuBALbNN7+Apx3zgAABAD3+QEAOfDa/54RDgA4//YAHwIEAAX+AgDuDQEA8DgwAPcdFwD7AvgABQP9ACye3+oHAId4/ZfCvAAByPEcAzgP5P3w4QBC/OQAnhEbAPf2+AD2BwkA/P79AAgC/AATAAIAAP0CAP8F/gDz9QMA1AYOAHAGEgDsu3V+/ARO6cn/1wMaAgoLB87jBPreBfIAJAcMAP39/AAMCAQAAvb2APPh5AAL6+wABfz8ABgKCgDVISUFAU2Wx/uzUGsBBMDpOAH69+cAAo+V8hRSZ6L48gCBAvQABufoAAfe3QAQ9fsAAA0KAPQKCgDxEBYA2R0kAMTo5R7uM3uEARcCyP4EANaQ/i45UwGVQq3/a/4GsOX2+mfS2gArBgUA8RcgAOIOFwDnAwQAwxENAMEJAQ3Z8K5S7CpOZP6MAUUD+0qy/wCG/ggF67ptABDSsAEMPqwB7d0AMfPfAE/34AE+//8AHf//BAf//xACY+ttAQD0uAKg+wAFfruSAbwA/wH/qlICAPmmVwH/AP8A6fsGBIjjJgNsjbkC3P8WA0rz/wD/AP8B9MMNAdbkEQIF0vkAbcJtAehPqAH/hyEC//8AA7T/HgMA/wD/APr7AQT+V64B/5JdAJT/DQOnPv8B8cUDA+b5AARRlo8A/0ugAfqHbwH/bkYB/5Q4Af8L3gD/C+4AvtVvAQBq/yYCNP+lBC34qwL/rFQB9MwFBJdu9wEJ/9YAL9jkARno/AJE/bwCh+pVAUX/pwEG//cCMv98Af/pEAH/W6IDp+qOsDKTNzoAAAAASUVORK5CYII=');
 }
 
-.mod_wow_guild_members .deathknight {
+.mod_wow_guild_members .class_6 {
     color: #C41F3B;
 }
 
-.mod_wow_guild_members .druid {
+.mod_wow_guild_members .class_11 {
     color: #FF7D0A;
 }
 
-.mod_wow_guild_members .hunter {
+.mod_wow_guild_members .class_3 {
     color: #ABD473;
 }
 
-.mod_wow_guild_members .mage {
+.mod_wow_guild_members .class_8 {
     color: #69CCF0;
 }
 
-.mod_wow_guild_members .monk {
+.mod_wow_guild_members .class_10 {
     color: #00FF96;
 }
 
-.mod_wow_guild_members .paladin {
+.mod_wow_guild_members .class_2 {
     color: #F58CBA;
 }
 
-.mod_wow_guild_members .priest {
+.mod_wow_guild_members .class_5 {
     color: #FFFFFF;
 }
 
-.mod_wow_guild_members .rogue {
+.mod_wow_guild_members .class_4 {
     color: #FFF569;
 }
 
-.mod_wow_guild_members .shaman {
+.mod_wow_guild_members .class_7 {
     color: #0070DE;
 }
 
-.mod_wow_guild_members .warlock {
+.mod_wow_guild_members .class_9 {
     color: #9482C9;
 }
 
-.mod_wow_guild_members .warrior {
+.mod_wow_guild_members .class_1 {
     color: #C79C6E;
 }
