@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-domix::err();
-
 final class ModWowGuildMembersHelper
 {
     private $params = null;
@@ -28,6 +26,7 @@ final class ModWowGuildMembersHelper
         $params->set('region', JString::strtolower($params->get('region')));
         $params->set('lang', JString::strtolower($params->get('lang', 'en')));
         $params->set('link', $params->get('link', 'battle.net'));
+        $params->set('order', $params->get('order'));
 
         $this->params = & $params;
     }
@@ -135,6 +134,10 @@ final class ModWowGuildMembersHelper
             $result->members[$key] = $member;
         }
 
+        if ($this->params->get('table_break')) {
+            $this->params->set('order', $this->params->get('table_break'));
+        }
+
         usort($result->members, array($this, 'sort'));
 
         if (empty($result->members)) {
@@ -150,10 +153,16 @@ final class ModWowGuildMembersHelper
 
     private function sort($a, $b)
     {
-        if ($this->params->get('sort', 'ASC') == 'ASC') {
-            return strcmp($a->{$this->params->get('order', 'name')}->title, $b->{$this->params->get('order', 'name')}->title);
+        if ($this->params->get('order') == 'rank') {
+            $field = 'id';
         } else {
-            return strcmp($b->{$this->params->get('order', 'name')}->title, $a->{$this->params->get('order', 'name')}->title);
+            $field = 'title';
+        }
+
+        if ($this->params->get('sort', 'ASC') == 'ASC') {
+            return strcmp($a->{$this->params->get('order')}->{$field}, $b->{$this->params->get('order')}->{$field});
+        } else {
+            return strcmp($b->{$this->params->get('order')}->{$field}, $a->{$this->params->get('order')}->{$field});
         }
     }
 
