@@ -214,14 +214,14 @@ final class ModWowGuildMembersHelper
     {
         $cache = JFactory::getCache('wow', 'output');
         $cache->setCaching(1);
-        $cache->setLifeTime($this->params->get('cache_time', 60) * ($persistent ? 172800 : 60)); // randomize cache time a little bit for each url
+        $cache->setLifeTime($this->params->get('cache_time', 60) * ($persistent ? 172800 : 60));
 
         $key = md5($url);
 
         if (!$result = $cache->get($key)) {
             try {
                 $http = JHttpFactory::getHttp();
-                $http->setOption('userAgent', 'Joomla! ' . JVERSION . '; WoW Guild Members Module; php/' . phpversion());
+                $http->setOption('userAgent', 'Joomla! ' . JVERSION . '; WoW Guild Members; php/' . phpversion());
                 $result = $http->get($url, null, $this->params->get('timeout', 10));
             } catch (Exception $e) {
                 return $e->getMessage();

@@ -41,7 +41,7 @@ JFactory::getDocument()->addStyleSheet(JUri::base(true) . '/modules/' . $module-
                     <th class="level"><?php echo JText::_('MOD_WOW_GUILD_MEMBERS_LEVEL'); ?></th>
                 <?php } ?>
                 <?php if ($params->get('display_points', 1)) { ?>
-                    <th class="level"><?php echo JText::_('MOD_WOW_GUILD_MEMBERS_POINTS'); ?></th>
+                    <th class="points"><?php echo JText::_('MOD_WOW_GUILD_MEMBERS_POINTS'); ?></th>
                 <?php } ?>
             </tr>
         <?php } ?>
@@ -56,7 +56,9 @@ JFactory::getDocument()->addStyleSheet(JUri::base(true) . '/modules/' . $module-
             <?php } ?>
             <tr>
                 <?php if ($params->get('display_index')) { ?>
-                    <td class="index idx_<?php echo $member->index; ?>"><?php echo $member->index; ?>.</td>
+                    <td class="index idx_<?php echo $member->index; ?>">
+                        <?php echo $member->index; ?>.
+                    </td>
                 <?php } ?>
                 <td class="name">
                     <?php echo JHtml::_('link', $member->name->link, $member->name->title, array('target' => '_blank', 'class' => 'class_' . $member->class->id)); ?>
@@ -67,12 +69,12 @@ JFactory::getDocument()->addStyleSheet(JUri::base(true) . '/modules/' . $module-
                     </td>
                 <?php } ?>
                 <?php if ($params->get('display_class', 1)) { ?>
-                    <td class="race">
+                    <td class="class">
                         <?php echo JHtml::_('image', $media_path . $member->class->icon, $member->class->title, array('title' => $member->class->title)); ?>
                     </td>
                 <?php } ?>
                 <?php if ($params->get('display_role', 1)) { ?>
-                    <td class="race">
+                    <td class="role">
                         <?php echo JHtml::_('image', $media_path . $member->role->icon, $member->role->title, array('title' => $member->role->spec)); ?>
                     </td>
                 <?php } ?>

@@ -15,7 +15,7 @@ class mod_wow_guild_membersInstallerScript
 
     public function preflight()
     {
-        if (!version_compare(JVERSION, $this->required, 'ge')) {
+        if (!version_compare(JVERSION, $this->required, '>=')) {
             $link = JHtml::link('index.php?option=com_joomlaupdate', $this->required);
             JFactory::getApplication()->enqueueMessage(sprintf('You need Joomla! %s or later to install this extension', $link), 'error');
             return false;
