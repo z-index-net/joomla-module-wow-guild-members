@@ -160,9 +160,9 @@ final class ModWowGuildMembersHelper
         }
 
         if ($this->params->get('sort', 'ASC') == 'ASC') {
-            return strcmp($a->{$this->params->get('order')}->{$field}, $b->{$this->params->get('order')}->{$field});
+            return ($a->{$this->params->get('order')}->{$field} > $b->{$this->params->get('order')}->{$field});
         } else {
-            return strcmp($b->{$this->params->get('order')}->{$field}, $a->{$this->params->get('order')}->{$field});
+            return ($a->{$this->params->get('order')}->{$field} < $b->{$this->params->get('order')}->{$field});
         }
     }
 
