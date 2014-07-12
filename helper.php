@@ -124,7 +124,7 @@ final class ModWowGuildMembersHelper
 
             $member->role = new stdClass;
             $member->role->title = JText::_('MOD_WOW_GUILD_MEMBERS_' . ($row->character->spec->role ? $row->character->spec->role : 'UNKNOWN'));
-            $member->role->spec = $row->character->spec->name;
+            $member->role->spec = ($row->character->spec->role ? $row->character->spec->name : $member->role->title);
             $member->role->icon = ($row->character->spec->role ? $row->character->spec->icon : 'inv_misc_questionmark') . '.jpg';
 
             $member->gender = new stdClass;
