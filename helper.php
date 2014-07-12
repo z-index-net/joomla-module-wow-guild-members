@@ -123,9 +123,9 @@ final class ModWowGuildMembersHelper
             $member->class->icon = 'class_' . $result->classes[$row->character->class]->id . '.jpg';
 
             $member->role = new stdClass;
-            $member->role->title = JText::_('MOD_WOW_GUILD_MEMBERS_' . $row->character->spec->role);
+            $member->role->title = JText::_('MOD_WOW_GUILD_MEMBERS_' . ($row->character->spec->role ? $row->character->spec->role : 'UNKNOWN'));
             $member->role->spec = $row->character->spec->name;
-            $member->role->icon = $row->character->spec->icon . '.jpg';
+            $member->role->icon = ($row->character->spec->role ? $row->character->spec->icon : 'inv_misc_questionmark') . '.jpg';
 
             $member->gender = new stdClass;
             $member->gender->id = $row->character->gender;
