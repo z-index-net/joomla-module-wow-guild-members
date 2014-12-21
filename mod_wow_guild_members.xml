@@ -67,10 +67,10 @@
                     <option value="role">MOD_WOW_GUILD_MEMBERS_TABLE_BREAK_ROLE</option>
                 </field>
                 <field name="rows" type="text" filter="integer" size="3" maxlength="3" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_ROWS_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_ROWS_DESC" />
-                <field name="level_min" type="integer" first="10" step="1" last="90" default="" filter="integer" label="MOD_WOW_GUILD_MEMBERS_LEVEL_MIN_LABEL" description="MOD_WOW_GUILD_MEMBERS_LEVEL_MIN_DESC">
+                <field name="level_min" type="integer" first="10" step="1" last="100" default="" filter="integer" label="MOD_WOW_GUILD_MEMBERS_LEVEL_MIN_LABEL" description="MOD_WOW_GUILD_MEMBERS_LEVEL_MIN_DESC">
                     <option value="">JNONE</option>
                 </field>
-                <field name="level_max" type="integer" first="10" step="1" last="90" default="" filter="integer" label="MOD_WOW_GUILD_MEMBERS_LEVEL_MAX_LABEL" description="MOD_WOW_GUILD_MEMBERS_LEVEL_MAX_DESC">
+                <field name="level_max" type="integer" first="10" step="1" last="100" default="" filter="integer" label="MOD_WOW_GUILD_MEMBERS_LEVEL_MAX_LABEL" description="MOD_WOW_GUILD_MEMBERS_LEVEL_MAX_DESC">
                     <option value="">JNONE</option>
                 </field>
                 <field name="display_index" type="list" default="0" label="MOD_WOW_GUILD_MEMBERS_DISPLAY_INDEX_LABEL" description="MOD_WOW_GUILD_MEMBERS_DISPLAY_INDEX_DESC">
