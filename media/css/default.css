@@ -1,0 +1,85 @@
+.mod_wow_guild_members {
+    width: 100%;
+}
+
+.mod_wow_guild_members td,
+.mod_wow_guild_members th {
+    padding: 2px;
+}
+
+.mod_wow_guild_members .race,
+.mod_wow_guild_members .class,
+.mod_wow_guild_members .role {
+    width: 20px;
+}
+
+.mod_wow_guild_members .break {
+    text-align: left;
+    font-size: 1.2em;
+}
+
+.mod_wow_guild_members .name img {
+    vertical-align: middle;
+}
+
+.mod_wow_guild_members .level {
+    text-align: center;
+}
+
+.mod_wow_guild_members .points {
+    text-align: right;
+    padding-right: 10px;
+    background: no-repeat center right url('../images/points.gif');
+}
+
+.mod_wow_guild_members .index {
+    text-align: center;
+}
+
+.mod_wow_guild_members .index.idx_1 {
+    background: no-repeat top left url('../images/idx_1.png');
+}
+
+.mod_wow_guild_members .class_6 {
+    color: #C41F3B;
+}
+
+.mod_wow_guild_members .class_11 {
+    color: #FF7D0A;
+}
+
+.mod_wow_guild_members .class_3 {
+    color: #ABD473;
+}
+
+.mod_wow_guild_members .class_8 {
+    color: #69CCF0;
+}
+
+.mod_wow_guild_members .class_10 {
+    color: #00FF96;
+}
+
+.mod_wow_guild_members .class_2 {
+    color: #F58CBA;
+}
+
+.mod_wow_guild_members .class_5 {
+    color: #FFFFFF;
+}
+
+.mod_wow_guild_members .class_4 {
+    color: #FFF569;
+}
+
+.mod_wow_guild_members .class_7 {
+    color: #0070DE;
+}
+
+.mod_wow_guild_members .class_9 {
+    color: #9482C9;
+}
+
+.mod_wow_guild_members .class_1 {
+    color: #C79C6E;
+}
